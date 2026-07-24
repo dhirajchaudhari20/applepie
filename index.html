@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 
-                <a href="https://www.zomato.com/mumbai/apple-pie-restaurant-saphale/order" target="_blank" class="btn primary-btn" style="background: #E23744;">
+                <a href="https://www.zomato.com/mumbai/apple-pie-restaurant-saphale/order" target="_blank" class="btn primary-btn" id="viewMenuBtn" style="background: #E23744;">
                     <i class="fa-solid fa-book-open"></i> View Menu
                 </a>
             </section>
@@ -183,6 +183,38 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in, .slide-in-top').forEach(el => observer.observe(el));
+        });
+    </script>
+
+    <!-- Firebase Real-Time Menu Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Provided Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCohKlqNu0I1sXcLW4D_fv-OEw9x0S50q8",
+            authDomain: "dc-infotechpvt-1-d1a4b.firebaseapp.com",
+            databaseURL: "https://dc-infotechpvt-1-d1a4b-default-rtdb.firebaseio.com",
+            projectId: "dc-infotechpvt-1-d1a4b",
+            storageBucket: "dc-infotechpvt-1-d1a4b.firebasestorage.app",
+            messagingSenderId: "330752838328",
+            appId: "1:330752838328:web:1fe0ca04953934d4638703"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Listen for Menu URL changes
+        const menuBtn = document.getElementById("viewMenuBtn");
+        const menuUrlRef = ref(db, 'settings/menuUrl');
+        
+        onValue(menuUrlRef, (snapshot) => {
+            const url = snapshot.val();
+            if (url) {
+                menuBtn.href = url;
+                menuBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> View PDF Menu';
+            }
         });
     </script>
 </body>
