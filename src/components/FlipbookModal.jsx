@@ -30,8 +30,6 @@ const FlipbookModal = ({ isOpen, onClose, pdfUrl }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (!isOpen) return null;
-
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
@@ -50,7 +48,11 @@ const FlipbookModal = ({ isOpen, onClose, pdfUrl }) => {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 9999,
+      zIndex: isOpen ? 9999 : -1,
+      visibility: isOpen ? 'visible' : 'hidden',
+      opacity: isOpen ? 1 : 0,
+      pointerEvents: isOpen ? 'auto' : 'none',
+      transition: 'opacity 0.3s ease, visibility 0.3s ease',
       padding: '20px'
     }}>
       <button 
