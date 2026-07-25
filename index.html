@@ -32,6 +32,8 @@
                 <h1>Apple Pie Restaurant & Cafe</h1>
                 <span class="status-badge open"><i class="fa-solid fa-clock"></i> Open until 11 PM</span>
             </div>
+            <a href="javascript:void(0)" class="btn secondary-btn" id="themeToggle" aria-label="Toggle dark mode" style="margin-left:auto;">🌙</a>
+
         </header>
 
         <div class="content-grid">
@@ -76,6 +78,7 @@
             <!-- Menu Section -->
             <section class="card glass-card fade-in delay-2">
                 <h2 class="section-title">Our Menu Highlights</h2>
+                <a href="./menu.html" class="btn primary-btn" id="viewMenuBtn" style="background: #E23744; margin-top: 0.5rem;"><i class="fa-solid fa-file-pdf"></i> View Full Menu</a>
                 <div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
                     <div class="menu-item" style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border);">
                         <h3 style="font-size: 1.1rem; color: #fff;">Paneer Tikka Pizza</h3>
@@ -95,9 +98,7 @@
                     </div>
                 </div>
                 
-                <a href="./menu.html" class="btn primary-btn" id="viewMenuBtn" style="background: #E23744;">
-                    <i class="fa-solid fa-file-pdf"></i> View Full Menu
-                </a>
+
             </section>
 
             <!-- Overview & Features -->
@@ -214,6 +215,35 @@
             if (url) {
                 menuBtn.href = url;
                 menuBtn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> View PDF Menu';
+            }
+        });
+    </script>
+    <script>
+        // Dark Mode Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check local storage for theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            themeToggle.textContent = '☀️';
+        } else {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
             }
         });
     </script>
