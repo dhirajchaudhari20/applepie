@@ -1,33 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      document.body.classList.add('light-mode');
-      setIsDarkMode(false);
-    } else {
-      document.body.classList.add('dark-mode');
-      setIsDarkMode(true);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    if (isDarkMode) {
-      document.body.classList.remove('dark-mode');
-      document.body.classList.add('light-mode');
-      localStorage.setItem('theme', 'light');
-      setIsDarkMode(false);
-    } else {
-      document.body.classList.remove('light-mode');
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-      setIsDarkMode(true);
-    }
-  };
-
   return (
     <header className="glass-header slide-in-top">
       <div className="logo-box">
@@ -44,14 +17,6 @@ const Header = () => {
           <i className="fa-solid fa-clock"></i> Open until 11 PM
         </span>
       </div>
-      <button
-        className="btn secondary-btn"
-        onClick={toggleTheme}
-        aria-label="Toggle dark mode"
-        style={{ marginLeft: 'auto' }}
-      >
-        {isDarkMode ? '🌙' : '☀️'}
-      </button>
     </header>
   );
 };
