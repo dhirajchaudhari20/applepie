@@ -124,6 +124,13 @@ a { text-decoration: none; color: inherit; }
     background: rgba(34, 197, 94, 0.15);
     color: var(--success);
     border: 1px solid rgba(34, 197, 94, 0.3);
+    transition: all 0.3s ease;
+}
+
+.status-badge.closed {
+    background: rgba(226, 55, 68, 0.15); /* E23744 with opacity */
+    color: #E23744;
+    border-color: rgba(226, 55, 68, 0.3);
 }
 
 /* Cards & Content Grid */

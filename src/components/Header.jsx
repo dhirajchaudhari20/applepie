@@ -1,6 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const checkStatus = () => {
+      const now = new Date();
+      const options = { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false };
+      const currentHourIST = parseInt(new Intl.DateTimeFormat('en-US', options).format(now));
+      // Restaurant is open from 11 AM (11) to 11 PM (23)
+      setIsOpen(currentHourIST >= 11 && currentHourIST < 23);
+    };
+
+    checkStatus(); // Initial check
+    const interval = setInterval(checkStatus, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <header className="glass-header slide-in-top">
       <div className="logo-box">
@@ -13,8 +29,9 @@ const Header = () => {
       </div>
       <div className="brand-text">
         <h1>Apple Pie Restaurant & Cafe</h1>
-        <span className="status-badge open">
-          <i className="fa-solid fa-clock"></i> Open until 11 PM
+        <span className={`status-badge ${isOpen ? 'open' : 'closed'}`}>
+          <i className={`fa-solid ${isOpen ? 'fa-clock' : 'fa-door-closed'}`}></i> 
+          {isOpen ? 'Open Now' : 'Closed'}
         </span>
       </div>
     </header>
