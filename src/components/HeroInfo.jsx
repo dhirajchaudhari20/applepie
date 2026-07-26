@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 import FlipbookModal from './FlipbookModal';
+import OnlineOrderModal from './OnlineOrderModal';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCohKlqNu0I1sXcLW4D_fv-OEw9x0S50q8",
@@ -19,6 +20,7 @@ const db = getDatabase(app);
 const HeroInfo = () => {
   const [menuUrl, setMenuUrl] = useState("/assets/menu.pdf");
   const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   useEffect(() => {
     const menuUrlRef = ref(db, 'settings/menuUrl');
@@ -34,13 +36,20 @@ const HeroInfo = () => {
   return (
     <>
       <section className="card glass-card fade-in delay-1">
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
           <button
             onClick={() => setIsFlipbookOpen(true)}
             className="btn primary-btn"
-            style={{ background: '#E23744' }}
+            style={{ background: '#E23744', margin: 0 }}
           >
             <i className="fa-solid fa-file-pdf"></i> View Full Menu
+          </button>
+          <button
+            onClick={() => setIsOrderOpen(true)}
+            className="btn primary-btn"
+            style={{ background: '#25D366', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <i className="fa-brands fa-whatsapp"></i> Order on WhatsApp
           </button>
         </div>
 
@@ -94,6 +103,10 @@ const HeroInfo = () => {
         isOpen={isFlipbookOpen} 
         onClose={() => setIsFlipbookOpen(false)} 
         pdfUrl={menuUrl} 
+      />
+      <OnlineOrderModal 
+        isOpen={isOrderOpen}
+        onClose={() => setIsOrderOpen(false)}
       />
     </>
   );

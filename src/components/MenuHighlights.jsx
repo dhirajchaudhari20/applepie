@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
+import OnlineOrderModal from './OnlineOrderModal';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCohKlqNu0I1sXcLW4D_fv-OEw9x0S50q8",
@@ -18,6 +19,7 @@ const db = getDatabase(app);
 
 const MenuHighlights = () => {
   const [menuUrl, setMenuUrl] = useState("/assets/menu.pdf");
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   useEffect(() => {
     const menuUrlRef = ref(db, 'settings/menuUrl');
@@ -33,15 +35,29 @@ const MenuHighlights = () => {
   return (
     <section className="card glass-card fade-in delay-2">
       <h2 className="section-title">Our Menu Highlights</h2>
-      <a
-        href={menuUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn primary-btn"
-        style={{ background: '#E23744', marginTop: '0.5rem' }}
-      >
-        <i className="fa-solid fa-file-pdf"></i> View Full Menu
-      </a>
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.5rem', marginBottom: '1rem' }}>
+        <a
+          href={menuUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn primary-btn"
+          style={{ background: '#E23744', margin: 0 }}
+        >
+          <i className="fa-solid fa-file-pdf"></i> View Full Menu
+        </a>
+        <button
+          onClick={() => setIsOrderOpen(true)}
+          className="btn primary-btn"
+          style={{ background: '#25D366', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        >
+          <i className="fa-brands fa-whatsapp"></i> Order on WhatsApp
+        </button>
+      </div>
+
+      <OnlineOrderModal 
+        isOpen={isOrderOpen}
+        onClose={() => setIsOrderOpen(false)}
+      />
       <div
         className="menu-grid"
         style={{
