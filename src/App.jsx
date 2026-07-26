@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 import FlipbookModal from './components/FlipbookModal';
 import OnlineOrderModal from './components/OnlineOrderModal';
+import TableBookingModal from './components/TableBookingModal';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCohKlqNu0I1sXcLW4D_fv-OEw9x0S50q8",
@@ -31,6 +32,7 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [reviewIndex, setReviewIndex] = useState(0);
 
   useEffect(() => {
@@ -113,6 +115,11 @@ function App() {
           <button onClick={() => setIsOrderOpen(true)} className="link-btn order-btn">
             <i className="fa-brands fa-whatsapp icon"></i>
             <span>Order on WhatsApp</span>
+          </button>
+
+          <button onClick={() => setIsBookingOpen(true)} className="link-btn booking-btn">
+            <i className="fa-solid fa-calendar-days icon"></i>
+            <span>Book a Table</span>
           </button>
 
           <a href="https://www.google.com/maps/place/apple+pie+saphale/data=!4m2!3m1!1s0x3be707a7ea702c47:0x27f641a6bfe0845d?sa=X&ved=1t:242&ictx=111" target="_blank" rel="noreferrer" className="link-btn maps-btn">
@@ -202,6 +209,10 @@ function App() {
       <OnlineOrderModal 
         isOpen={isOrderOpen}
         onClose={() => setIsOrderOpen(false)}
+      />
+      <TableBookingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
       />
     </>
   );
