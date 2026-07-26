@@ -91,7 +91,7 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
         overflow: 'hidden'
       }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexShrink: 0 }}>
           <h2 style={{ margin: 0, color: '#fff', fontSize: '1.5rem' }}>
             <i className="fa-solid fa-cart-shopping"></i> Order Online
           </h2>
@@ -112,7 +112,7 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Search & Filter Bar */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexDirection: window.innerWidth < 600 ? 'column' : 'row' }}>
+        <div className="modal-search-filter" style={{ flexShrink: 0 }}>
           <div style={{ position: 'relative', flex: 1 }}>
             <input 
               type="text" 
@@ -175,7 +175,8 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
           overflowX: 'auto', 
           paddingBottom: '0.5rem', 
           marginBottom: '1rem',
-          borderBottom: '1px solid rgba(255,255,255,0.1)'
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          flexShrink: 0
         }}>
           <button 
             onClick={() => setActiveCategory('All')}
@@ -314,7 +315,8 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginTop: 'auto'
+            marginTop: 'auto',
+            flexShrink: 0
           }}>
             <div>
               <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{totalItemsCount} {totalItemsCount === 1 ? 'item' : 'items'} added</div>
