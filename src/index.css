@@ -619,3 +619,68 @@ a { text-decoration: none; color: inherit; }
     transform: scale(1.15);
 }
 
+/* Reviews Slider Styles */
+.reviews-slider-box {
+    width: 100%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.slider-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.slider-container {
+    position: relative;
+    min-height: 140px; /* Ensures space for content */
+}
+
+.slider-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.slider-slide.active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+}
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.slider-dot.active {
+    background: var(--primary);
+    width: 20px;
+    border-radius: 4px;
+}
+
+

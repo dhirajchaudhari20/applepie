@@ -17,11 +17,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+const reviews = [
+  { name: "Tejal Mhatre", rating: 5, date: "Apr 08, 2025", text: '"Food is very delicious with reasonable prices. Love it for that. 😊👍"', avatar: "TM" },
+  { name: "Dhiraj Chaudhari", rating: 5, date: "Jun 15, 2025", text: '"The best restaurant in Saphale! The Paneer Tikka Pizza and Mocktails are absolutely amazing. Highly recommended! 🍕🔥"', avatar: "DC" },
+  { name: "Prashant Manjrekar", rating: 5, date: "Mar 26, 2025", text: '"best quality"', avatar: "PM" },
+  { name: "Hiren Chaudhari", rating: 5, date: "May 22, 2025", text: '"Awesome taste, clean hygiene, and fast service. The burgers here are handmade and taste out of this world! 🍔💯"', avatar: "HC" },
+  { name: "Pruthvi", rating: 5, date: "Feb 21, 2025", text: '"food is delicious and tasty speciality in pizza and burger hand made pizza base and burger bun and specially chocolate brownies is awesome 😋😋😋😋😋 must visit to the restaurant"', avatar: "P" },
+  { name: "Rohan Patil", rating: 5, date: "Jan 12, 2025", text: '"Excellent experience! Love the ambiance and the service. The Chinese items and Dum Biryani are top-notch! 🍛✨"', avatar: "RP" }
+];
+
 function App() {
   const [menuUrl, setMenuUrl] = useState("/assets/menu.pdf");
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState(0);
 
   useEffect(() => {
     // Fetch menuUrl from Firebase
@@ -33,12 +43,12 @@ function App() {
       }
     });
 
-    // Check Open/Closed Status (11 AM to 11 PM IST)
+    // Check Open/Closed Status (8 AM to 11 PM IST)
     const checkStatus = () => {
       const now = new Date();
       const options = { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false };
       const currentHourIST = parseInt(new Intl.DateTimeFormat('en-US', options).format(now));
-      setIsOpen(currentHourIST >= 11 && currentHourIST < 23);
+      setIsOpen(currentHourIST >= 8 && currentHourIST < 23);
     };
 
     checkStatus();
@@ -48,6 +58,21 @@ function App() {
       unsubscribe();
       clearInterval(interval);
     };
+  }, []);
+
+  // Pre-fetch PDF menu to browser cache
+  useEffect(() => {
+    if (menuUrl) {
+      fetch(menuUrl).catch((err) => console.log("Pre-fetching PDF failed:", err));
+    }
+  }, [menuUrl]);
+
+  // Review Slider Autoplay
+  useEffect(() => {
+    const reviewInterval = setInterval(() => {
+      setReviewIndex((prev) => (prev + 1) % reviews.length);
+    }, 4000);
+    return () => clearInterval(reviewInterval);
   }, []);
 
   return (
@@ -78,23 +103,6 @@ function App() {
           </span>
         </div>
 
-        {/* Ratings Bar */}
-        <div className="rating-bar" style={{ border: 'none', margin: '0 0 1rem 0', padding: 0 }}>
-          <div className="rating-item">
-            <div className="score" style={{ fontSize: '1.8rem' }}>
-              3.6 <i className="fa-solid fa-star" style={{ fontSize: '1.1rem' }}></i>
-            </div>
-            <div className="rating-label" style={{ fontSize: '0.75rem' }}>Dining (7)</div>
-          </div>
-          <div className="rating-divider" style={{ height: '40px' }}></div>
-          <div className="rating-item">
-            <div className="score delivery-score" style={{ fontSize: '1.8rem' }}>
-              4.0 <i className="fa-solid fa-star" style={{ fontSize: '1.1rem' }}></i>
-            </div>
-            <div className="rating-label" style={{ fontSize: '0.75rem' }}>Delivery (1.6k)</div>
-          </div>
-        </div>
-
         {/* Link Buttons */}
         <div className="linktree-buttons">
           <button onClick={() => setIsFlipbookOpen(true)} className="link-btn menu-btn">
@@ -121,6 +129,50 @@ function App() {
             <i className="fa-brands fa-instagram icon"></i>
             <span>Follow on Instagram</span>
           </a>
+        </div>
+
+        {/* Restore Hero Image */}
+        <div className="hero-image-box mt-4" style={{ width: '100%', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+          <img
+            src="https://b.zmtcdn.com/data/pictures/2/21705142/eaef45acd875db09e8263c4035f9554e.jpeg?output-format=webp"
+            alt="Apple Pie Restaurant"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
+
+        {/* Reviews Slider */}
+        <div className="reviews-slider-box mt-4">
+          <h3 className="slider-title"><i className="fa-solid fa-star" style={{ color: 'var(--star-color)' }}></i> Guest Reviews</h3>
+          <div className="slider-container">
+            {reviews.map((review, idx) => (
+              <div 
+                key={review.name} 
+                className={`slider-slide ${idx === reviewIndex ? 'active' : ''}`}
+              >
+                <div className="review-header" style={{ marginBottom: '0.5rem' }}>
+                  <div className="reviewer-avatar">{review.avatar}</div>
+                  <div className="reviewer-info">
+                    <h4 className="reviewer-name" style={{ margin: 0, fontSize: '0.95rem' }}>{review.name}</h4>
+                    <span className="review-date" style={{ fontSize: '0.75rem' }}>{review.date}</span>
+                  </div>
+                  <div className="review-rating" style={{ fontSize: '0.8rem', padding: '0.2rem 0.4rem' }}>
+                    {review.rating} <i className="fa-solid fa-star"></i>
+                  </div>
+                </div>
+                <p className="review-text" style={{ fontSize: '0.9rem', margin: 0 }}>{review.text}</p>
+              </div>
+            ))}
+          </div>
+          {/* Dot Indicators */}
+          <div className="slider-dots">
+            {reviews.map((_, idx) => (
+              <span 
+                key={idx} 
+                className={`slider-dot ${idx === reviewIndex ? 'active' : ''}`}
+                onClick={() => setReviewIndex(idx)}
+              ></span>
+            ))}
+          </div>
         </div>
 
         {/* Social Icons Footer */}
