@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const MenuHighlights = () => {
-  const [menuUrl, setMenuUrl] = useState("/assets/menu.pdf");
+  const [menuUrl, setMenuUrl] = useState("/assets/menu_compressed.pdf");
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   useEffect(() => {

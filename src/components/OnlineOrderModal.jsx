@@ -49,10 +49,14 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
     Object.entries(cart).forEach(([itemId, quantity]) => {
       const item = menuData.find((i) => i.id === itemId);
       if (item) {
-        message += `*${quantity}x* ${item.name} (₹${item.price}) - ₹${item.price * quantity}\n`;
+        if (item.isAPS) {
+          message += `*${quantity}x* ${item.name} (APS)\n`;
+        } else {
+          message += `*${quantity}x* ${item.name} (₹${item.price}) - ₹${item.price * quantity}\n`;
+        }
       }
     });
-    message += `\n*Total: ₹${cartTotal}*\n`;
+    message += `\n*Total: ₹${cartTotal}* (plus any APS items)\n`;
     message += `\nType: Takeaway / Delivery\nName: \nAddress (if delivery): `;
 
     const encodedMessage = encodeURIComponent(message);
@@ -242,7 +246,7 @@ const OnlineOrderModal = ({ isOpen, onClose }) => {
                       </p>
                     )}
                     <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem', display: 'inline-block', marginTop: '0.25rem' }}>
-                      ₹{item.price}
+                      {item.isAPS ? 'APS (As Per Size)' : `₹${item.price}`}
                     </span>
                   </div>
 

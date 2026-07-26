@@ -27,7 +27,7 @@ const reviews = [
 ];
 
 function App() {
-  const [menuUrl, setMenuUrl] = useState("/assets/menu.pdf");
+  const [menuUrl, setMenuUrl] = useState("/assets/menu_compressed.pdf");
   const [isOpen, setIsOpen] = useState(false);
   const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
@@ -60,10 +60,10 @@ function App() {
     };
   }, []);
 
-  // Pre-fetch PDF menu to browser cache
+  // Pre-fetch PDF menu to browser cache with high priority
   useEffect(() => {
     if (menuUrl) {
-      fetch(menuUrl).catch((err) => console.log("Pre-fetching PDF failed:", err));
+      fetch(menuUrl, { priority: 'high' }).catch((err) => console.log("Pre-fetching PDF failed:", err));
     }
   }, [menuUrl]);
 
