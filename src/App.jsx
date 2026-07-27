@@ -4,6 +4,9 @@ import { getDatabase, ref, onValue } from "firebase/database";
 import FlipbookModal from './components/FlipbookModal';
 import OnlineOrderModal from './components/OnlineOrderModal';
 import TableBookingModal from './components/TableBookingModal';
+import AmbientMusicPlayer from './components/AmbientMusicPlayer';
+import AmbianceGallery from './components/AmbianceGallery';
+import FeedbackForm from './components/FeedbackForm';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCohKlqNu0I1sXcLW4D_fv-OEw9x0S50q8",
@@ -105,6 +108,9 @@ function App() {
           </span>
         </div>
 
+        {/* Ambient Music Player */}
+        <AmbientMusicPlayer />
+
         {/* Link Buttons */}
         <div className="linktree-buttons">
           <button onClick={() => setIsFlipbookOpen(true)} className="link-btn menu-btn">
@@ -181,6 +187,12 @@ function App() {
             ))}
           </div>
         </div>
+
+        {/* Ambiance & Dishes Gallery */}
+        <AmbianceGallery />
+
+        {/* Customer Feedback Form */}
+        <FeedbackForm db={db} />
 
         {/* Social Icons Footer */}
         <div className="social-footer">
